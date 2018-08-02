@@ -280,11 +280,52 @@ server.get('/tags/:id', (req,res) => {
 
 // [PUT] `/tags/:id` This route will update the tag with the matching `id` using information sent in the body of the request.
 
+server.put('/tags/:id', (req,res) => {
+    // const userId = req.params.id;
+    const { id } = req.params;
+    const tag = req.body;
 
+    if(!tag || tag === '') {
+        res.status(400).json({message: "No tag filled out in request of the body."})
+    }
+    
+    knexDb('tags')
+    .where({ id })
+    .update(tag)
+    .then(response => {
+
+        if(!response) {
+            res.status(404).json({errorCat: `https://http.cat/404`, message: `Couldn't update.`})
+            return;
+        }
+        knexDb('tags')
+        .where({id})
+        .then(tag => {
+            res.status(200).json({tag, message: "Successfully updated ."});
+        })
+    })
+    .catch(err => res.status(500).json({errorMessage:"500 Internal Server Error", err}))
+})
 
 // [DELETE] `/tags/:id` This route should delete the specified tag.
 
-
+server.delete('/tags/:id', (req, res) => {
+    const { id } = req.params;
+    
+    knexDb('tags')
+    .where({ id })
+    .del()
+      .then(response => {
+        if (!response) {
+            res.status(404).json({response, message: `Tag ${id} does not exist.`})
+            return;
+        }
+        res.status(201).json({response, message: `Tag ${id} has been deleted.`});
+    })
+    .catch(err => {
+        res.status(500).json(err);
+    })
+})
 
 // LISTEN
 const port = 8111;

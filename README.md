@@ -64,8 +64,8 @@ Implement the following endpoints:
 [✔] - [POST] `/tags` This route should save a new tag to the database.
 [✔] - [GET] `/tags` This route will return an array of all tags
 [✔] - [GET] `/tags/:id` This route will return the tag with the matching `id`.
-[] - [PUT] `/tags/:id` This route will update the tag with the matching `id` using information sent in the body of the request.
-[] - [DELETE] `/tags/:id` This route should delete the specified tag.
+[✔] - [PUT] `/tags/:id` This route will update the tag with the matching `id` using information sent in the body of the request.
+[✔] - [DELETE] `/tags/:id` This route should delete the specified tag.
 
 ## Extra Credit
 
